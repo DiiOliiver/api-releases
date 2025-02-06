@@ -40,11 +40,8 @@ public class SecurityConfig {
 				authorize -> authorize
 					.requestMatchers(
 						"/api/auth/**",
-						"/api/accounts/**",
-						"/api/releases/**",
 						"/swagger-ui/**",
-						"/v3/api-docs/**",
-						"/swagger-resources/**"
+						"/v3/api-docs/**"
 					)
 					.permitAll()
 					.anyRequest()

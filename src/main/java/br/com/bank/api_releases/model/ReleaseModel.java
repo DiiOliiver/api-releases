@@ -87,7 +87,7 @@ public class ReleaseModel extends BusinessObject {
 		return ReleaseDTO.with(
 			this.getId(),
 			this.getAccount().toAggregate(),
-			this.getAmount(),
+			String.valueOf(this.getAmount()),
 			this.getPaymentType(),
 			this.getUpdatedAt()
 		);

@@ -1,6 +1,7 @@
 package br.com.bank.api_releases.security;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,6 +23,7 @@ public class JwtTokenProvider {
 
 		return Jwts.builder()
 			.setSubject(user.getUsername())
+			.claim("roles", user.getAuthorities())
 			.setIssuedAt(new Date())
 			.setExpiration(new Date(System.currentTimeMillis() + jwtExpirationMs))
 			.signWith(SignatureAlgorithm.HS512, jwtSecret)
@@ -29,23 +31,34 @@ public class JwtTokenProvider {
 	}
 
 	public String getUsernameFromToken(String token) {
-		Claims claims = Jwts.parserBuilder()
-			.setSigningKey(jwtSecret)
-			.build()
-			.parseClaimsJws(token)
-			.getBody();
-		return claims.getSubject();
+		try {
+			Claims claims = Jwts.parserBuilder()
+				.setSigningKey(jwtSecret)
+				.build()
+				.parseClaimsJws(token)
+				.getBody();
+			return claims.getSubject();
+		} catch (Exception e) {
+			throw new RuntimeException("Token inválido", e);
+		}
 	}
 
 	public boolean validateToken(String token) {
 		try {
-			Jwts.parserBuilder()
+			Jws<Claims> claims = Jwts.parserBuilder()
 				.setSigningKey(jwtSecret)
 				.build()
 				.parseClaimsJws(token);
+
+			Date expirationDate = claims.getBody().getExpiration();
+			if (expirationDate.before(new Date())) {
+				return false;
+			}
+
 			return true;
 		} catch (Exception e) {
 			return false;
 		}
 	}
+
 }

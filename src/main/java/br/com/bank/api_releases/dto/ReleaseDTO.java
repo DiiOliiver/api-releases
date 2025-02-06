@@ -8,14 +8,14 @@ public record ReleaseDTO(
 
 	UUID id,
 	AccountDTO account,
-	Double amount,
+	String amount,
 	String paymentType,
 	Date updatedAt
 ) {
 	public static ReleaseDTO with(
 		UUID id,
 		AccountDTO account,
-		Double amount,
+		String amount,
 		PaymentTypeEnum paymentType,
 		Date updatedAt
 	) {

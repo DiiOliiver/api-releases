@@ -40,9 +40,10 @@ public class ReleaseCrudController {
 			return ResponseEntity.status(HttpStatus.CREATED)
 				.body("Conta " + form.getMembershipNumber() + ": Lançamento registrado com sucesso!");
 		} catch (AccountException accountException) {
+			log.error("Erro ao criar lançamento: {}", accountException.getMessage());
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(accountException.getMessage());
 		} catch (Exception exception) {
-			exception.printStackTrace();
+			log.error("Erro desconhecido ao criar lançamento", exception);
 			return ResponseEntity.internalServerError().body(exception.getMessage());
 		}
 	}
@@ -60,7 +61,7 @@ public class ReleaseCrudController {
 			this.crudService.delete(id);
 			return ResponseEntity.ok("O lançamento não está mais disponível!");
 		} catch (Exception exception) {
-			exception.printStackTrace();
+			log.error("Erro ao excluir lançamento: {}", exception.getMessage());
 			return ResponseEntity.internalServerError().body(exception.getMessage());
 		}
 	}
@@ -75,7 +76,7 @@ public class ReleaseCrudController {
 		try {
 			return ResponseEntity.ok().body(this.crudService.findAll());
 		} catch (Exception exception) {
-			exception.printStackTrace();
+			log.error("Erro ao buscar lançamentos", exception);
 			return ResponseEntity.internalServerError().body(exception.getMessage());
 		}
 	}
@@ -87,11 +88,11 @@ public class ReleaseCrudController {
 		@ApiResponse(responseCode = "404", description = "Lançamento não encontrado"),
 		@ApiResponse(responseCode = "500", description = "Erro interno no servidor")
 	})
-	public ResponseEntity<Object> findById(String id) throws Exception {
+	public ResponseEntity<Object> findById(@PathVariable String id) throws Exception {
 		try {
 			return ResponseEntity.ok().body(this.crudService.findById(id));
 		} catch (Exception exception) {
-			exception.printStackTrace();
+			log.error("Erro ao buscar lançamento com ID: {}", id, exception);
 			return ResponseEntity.internalServerError().body(exception.getMessage());
 		}
 	}

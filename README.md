@@ -11,6 +11,9 @@ Selecione o link abaixo para ser direcionado para a documentação da aplicaçã
 
 Java 21, Spring 3, PostgreSQL 14, Kafka e Docker
 
+## Swagger
+- http://localhost:8082/swagger-ui/index.html
+
 ## Instalação
 - [Instalação](INSTALL.md)
 

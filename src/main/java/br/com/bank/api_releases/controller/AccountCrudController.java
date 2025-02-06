@@ -37,7 +37,7 @@ public class AccountCrudController implements CrudController<AccountForm, String
 			this.crudService.create(form);
 			return ResponseEntity.status(HttpStatus.CREATED).body("A conta de " + form.getName() + " foi cadastrado!");
 		} catch (Exception exception) {
-			exception.printStackTrace();
+			log.error("Erro inesperado: {}", exception.getMessage(), exception);
 			return ResponseEntity.internalServerError().body(exception.getMessage());
 		}
 	}
@@ -54,7 +54,7 @@ public class AccountCrudController implements CrudController<AccountForm, String
 			this.crudService.update(id, form);
 			return ResponseEntity.ok("A conta de " + form.getName() + " foi atualizada!");
 		} catch (Exception exception) {
-			exception.printStackTrace();
+			log.error("Erro inesperado: {}", exception.getMessage(), exception);
 			return ResponseEntity.internalServerError().body(exception.getMessage());
 		}
 	}
@@ -70,7 +70,7 @@ public class AccountCrudController implements CrudController<AccountForm, String
 			this.crudService.delete(id);
 			return ResponseEntity.ok("A conta não está mais disponível!");
 		} catch (Exception exception) {
-			exception.printStackTrace();
+			log.error("Erro inesperado: {}", exception.getMessage(), exception);
 			return ResponseEntity.internalServerError().body(exception.getMessage());
 		}
 	}
@@ -85,7 +85,7 @@ public class AccountCrudController implements CrudController<AccountForm, String
 		try {
 			return ResponseEntity.ok().body(this.crudService.findPageable(search, pageable));
 		} catch (Exception exception) {
-			exception.printStackTrace();
+			log.error("Erro inesperado: {}", exception.getMessage(), exception);
 			return ResponseEntity.internalServerError().body(exception.getMessage());
 		}
 	}
@@ -100,7 +100,7 @@ public class AccountCrudController implements CrudController<AccountForm, String
 		try {
 			return ResponseEntity.ok().body(this.crudService.findAll());
 		} catch (Exception exception) {
-			exception.printStackTrace();
+			log.error("Erro inesperado: {}", exception.getMessage(), exception);
 			return ResponseEntity.internalServerError().body(exception.getMessage());
 		}
 	}
@@ -116,7 +116,7 @@ public class AccountCrudController implements CrudController<AccountForm, String
 		try {
 			return ResponseEntity.ok().body(this.crudService.findById(id));
 		} catch (Exception exception) {
-			exception.printStackTrace();
+			log.error("Erro inesperado: {}", exception.getMessage(), exception);
 			return ResponseEntity.internalServerError().body(exception.getMessage());
 		}
 	}
